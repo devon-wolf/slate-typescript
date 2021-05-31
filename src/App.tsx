@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import List from './List';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Edit <code>src/App.tsx</code> and save to reload. Just like this.
         </p>
         <a
           className="App-link"
@@ -19,6 +20,10 @@ function App() {
           Learn React
         </a>
       </header>
+      <div>
+        <h2>Just another div</h2>
+        <List data={['one', 'two', 'three', 'four']} />
+      </div>
     </div>
   );
 }
