@@ -6,6 +6,7 @@ import CodeBlock from '../elements/CodeBlock';
 import Leaf from '../elements/Leaf';
 import { getLocalDocument, setLocalDocument } from '../services/local-storage';
 import { toggleBlockType, toggleFormat } from '../services/toggles';
+import FormatBar from '../components/FormatBar';
 
 //////////////////////////////////////////////////////
 // some type customization from SlateJS docs to get around typing quirkiness
@@ -63,32 +64,42 @@ const TextEditor = () => {
 		return <Leaf {...props} />
 	}, []);
 
+	// a better way to refactor this will be to make an object with each hotkey and the relevant callback/args
 	const handleKeyDown = (e : React.KeyboardEvent, editor : ReactEditor) => {
-		if (!e.ctrlKey) return;
+		if(!e.ctrlKey) return;
+		
+		const hotKeys = ['`', 'b', 'i', 'u', '-'];
+		if (!hotKeys.some(key => key === e.key)) return;
+		
+		e.preventDefault();
 
 		switch (e.key) {
 			case '`': {
-				e.preventDefault()
 				toggleBlockType(editor, 'code');
-				console.log('`');
 				break;
 			}
 
 			case 'b': {
-				e.preventDefault();
 				toggleFormat(editor, 'bold');
-				console.log('b');
 				break;
 			}
 
 			case 'i': {
-				e.preventDefault();
 				toggleFormat(editor, 'italic');
-				console.log('i');
+				break;
+			}
+
+			case 'u': {
+				toggleFormat(editor, 'underline');
+				break;
+			}
+
+			case '-': {
+				toggleFormat(editor, 'strikethrough');
 				break;
 			}
 		}
-	};
+	}
 
 	return (
 		<Slate
@@ -99,6 +110,7 @@ const TextEditor = () => {
 				setLocalDocument(newValue);
 			}}
 		>
+			<FormatBar editor={editor} />
 			<Editable
 				renderElement={renderElement}
 				renderLeaf={renderLeaf}

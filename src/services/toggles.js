@@ -1,10 +1,4 @@
 import { Transforms, Editor, Text } from 'slate';
-// import { ReactEditor } from 'slate-react';
-// import { CustomText } from '../pages/TextEditor';
-
-
-// type FormatString = 'bold' | 'italic' | 'underline' | 'strikethrough';
-// type TypeString = 'paragraph' | 'code';
 
 // checks whether a format property is truthy on the node
 const isFormatActive = (editor, format) => {

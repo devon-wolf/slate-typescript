@@ -1,7 +1,4 @@
-type DefaultProps = {
-	attributes : any,
-	children : Array<string>
-}
+import { DefaultProps } from "../types";
 
 const DefaultElement = ({ attributes, children } : DefaultProps) => {
 	return <p {...attributes}>{children}</p>;
