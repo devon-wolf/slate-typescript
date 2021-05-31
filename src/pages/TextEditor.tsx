@@ -5,7 +5,7 @@ import DefaultElement from '../elements/DefaultElement';
 import CodeBlock from '../elements/CodeBlock';
 import Leaf from '../elements/Leaf';
 import { getLocalDocument, setLocalDocument } from '../services/local-storage';
-// import { toggleBlockType, toggleFormat } from '../services/toggles';
+import { toggleBlockType, toggleFormat } from '../services/toggles';
 
 //////////////////////////////////////////////////////
 // some type customization from SlateJS docs to get around typing quirkiness
@@ -69,21 +69,21 @@ const TextEditor = () => {
 		switch (e.key) {
 			case '`': {
 				e.preventDefault()
-				// toggleBlockType(editor, 'code');
+				toggleBlockType(editor, 'code');
 				console.log('`');
 				break;
 			}
 
 			case 'b': {
 				e.preventDefault();
-				// toggleFormat(editor, 'bold');
+				toggleFormat(editor, 'bold');
 				console.log('b');
 				break;
 			}
 
 			case 'i': {
 				e.preventDefault();
-				// toggleFormat(editor, 'italic');
+				toggleFormat(editor, 'italic');
 				console.log('i');
 				break;
 			}
