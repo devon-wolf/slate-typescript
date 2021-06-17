@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react'
+import React, { useMemo, useState, useCallback, useContext, useEffect } from 'react'
 import { createEditor, BaseEditor, Descendant } from 'slate'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import DefaultElement from '../elements/DefaultElement';
@@ -7,6 +7,7 @@ import Leaf from '../elements/Leaf';
 import { getLocalDocument, setLocalDocument } from '../services/local-storage';
 import { toggleBlockType, toggleFormat } from '../services/toggles';
 import FormatBar from '../components/FormatBar';
+import { SocketContext } from '../socket/SocketProvider';
 
 //////////////////////////////////////////////////////
 // some type customization from SlateJS docs to get around typing quirkiness
@@ -37,12 +38,14 @@ declare module 'slate' {
 		Element : CustomElement,
 		Text : CustomText
 	}
-}
+};
 //////////////////////////////////////////////////////
 
 // Text Editor Component
 
 const TextEditor = () => {
+	const socket = useContext(SocketContext);
+
 	const editor = useMemo(() => withReact(createEditor()), []);
 	const [value, setValue] = useState<Descendant[]>(getLocalDocument() || [
 		{
@@ -99,15 +102,31 @@ const TextEditor = () => {
 				break;
 			}
 		}
-	}
+	};
+
+	const handleDocumentChange = (documentValue : Descendant[]) => {
+		setValue(documentValue);
+		setLocalDocument(documentValue);
+	};
+
+	const handleOutgoingChange = (documentValue : Descendant[]) => {
+		handleDocumentChange(documentValue);
+		socket.emit('outgoing change', documentValue);
+	};
+
+	useEffect(() => {
+		socket.on('incoming change', handleDocumentChange);
+		return () => {
+			socket.off('incoming change', handleDocumentChange);
+		}
+	}, [socket]);
 
 	return (
 		<Slate
 			editor={editor}
 			value={value}
 			onChange={newValue => {
-				setValue(newValue);
-				setLocalDocument(newValue);
+				handleOutgoingChange(newValue);
 			}}
 		>
 			<FormatBar editor={editor} />
@@ -118,6 +137,6 @@ const TextEditor = () => {
 			/>
 		</Slate>
 	);
-}
+};
 
-export default TextEditor
+export default TextEditor;
