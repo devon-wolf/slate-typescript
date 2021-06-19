@@ -4,7 +4,6 @@ import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import DefaultElement from '../elements/DefaultElement';
 import CodeBlock from '../elements/CodeBlock';
 import Leaf from '../elements/Leaf';
-import { getLocalDocument, setLocalDocument } from '../services/local-storage';
 import { toggleBlockType, toggleFormat } from '../services/toggles';
 import FormatBar from '../components/FormatBar';
 import { SocketContext } from '../socket/SocketProvider';
@@ -33,7 +32,7 @@ type CodeElement = {
 
 type CustomElement = ParagraphElement | CodeElement;
 declare module 'slate' {
-	interface CustomTypes {
+		interface CustomTypes {
 		Editor : CustomEditor,
 		Element : CustomElement,
 		Text : CustomText
@@ -47,12 +46,7 @@ const TextEditor = () => {
 	const socket = useContext(SocketContext);
 
 	const editor = useMemo(() => withReact(createEditor()), []);
-	const [value, setValue] = useState<Descendant[]>(getLocalDocument() || [
-		{
-			type: 'paragraph',
-			children: [{ text: 'A line of text in a paragraph' }]
-		}
-	]);
+	const [value, setValue] = useState<Descendant[]>([]);
 
 	const renderElement = useCallback(props => {
 		switch (props.element.type) {
@@ -106,7 +100,6 @@ const TextEditor = () => {
 
 	const handleDocumentChange = (documentValue : Descendant[]) => {
 		setValue(documentValue);
-		setLocalDocument(documentValue);
 	};
 
 	const handleOutgoingChange = (documentValue : Descendant[]) => {
@@ -115,6 +108,7 @@ const TextEditor = () => {
 	};
 
 	useEffect(() => {
+		socket.on('doc status', handleDocumentChange);
 		socket.on('socket change', handleDocumentChange);
 		return () => {
 			socket.off('socket change', handleDocumentChange);
