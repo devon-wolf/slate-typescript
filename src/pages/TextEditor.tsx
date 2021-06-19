@@ -8,45 +8,14 @@ import Leaf from '../elements/Leaf';
 import { toggleBlockType, toggleFormat } from '../services/toggles';
 import FormatBar from '../components/FormatBar';
 import { SocketContext } from '../socket/SocketProvider';
+import { CustomEditor } from './EditorWrapper';
 
-//////////////////////////////////////////////////////
-// some type customization from SlateJS docs to get around typing quirkiness
-type CustomEditor = BaseEditor & ReactEditor;
-
-export type CustomText = {
-	text : string,
-	bold? : boolean,
-	italic? : boolean,
-	underline? : boolean,
-	strikethrough? : boolean
+type EditorProps = {
+	editor : CustomEditor
 };
 
-type ParagraphElement = {
-	type : 'paragraph',
-	children : CustomText[]
-};
-
-type CodeElement = {
-	type : 'code',
-	children : CustomText[]
-};
-
-type CustomElement = ParagraphElement | CodeElement;
-declare module 'slate' {
-	interface CustomTypes {
-		Editor : CustomEditor,
-		Element : CustomElement,
-		Text : CustomText
-	}
-};
-//////////////////////////////////////////////////////
-
-// Text Editor Component
-
-const TextEditor = () => {
+const TextEditor = ({ editor } : EditorProps) => {
 	const socket = useContext(SocketContext);
-
-	const editor = useMemo(() => withReact(createEditor()), []);
 	const [value, setValue] = useState<Descendant[]>([
 		{
 			type: 'paragraph',
@@ -129,14 +98,14 @@ const TextEditor = () => {
 				handleOutgoingChange(newValue);
 			}}
 		>
-			<div className="editor">
-				<FormatBar editor={editor} />
+		
 				<Editable
 					renderElement={renderElement}
 					renderLeaf={renderLeaf}
 					onKeyDown={e => handleKeyDown(e, editor)}
+					className="editor"
 				/>
-			</div>
+	
 		</Slate>
 	);
 };
