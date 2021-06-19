@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 import io from 'socket.io-client';
 
-const url = 'http://localhost:7890';
+const url = process.env.REACT_APP_SOCKET_URL;
 
-export const socket = io(url, {
+export const socket = io(url as string, {
 	withCredentials: true,
 	extraHeaders: {
 		"document-events": "a document event"
