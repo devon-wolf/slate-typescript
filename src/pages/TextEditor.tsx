@@ -111,13 +111,13 @@ const TextEditor = () => {
 
 	const handleOutgoingChange = (documentValue : Descendant[]) => {
 		handleDocumentChange(documentValue);
-		socket.emit('outgoing change', documentValue);
+		socket.emit('client change', documentValue);
 	};
 
 	useEffect(() => {
-		socket.on('incoming change', handleDocumentChange);
+		socket.on('socket change', handleDocumentChange);
 		return () => {
-			socket.off('incoming change', handleDocumentChange);
+			socket.off('socket change', handleDocumentChange);
 		}
 	}, [socket]);
 
