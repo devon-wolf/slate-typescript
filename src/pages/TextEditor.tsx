@@ -4,7 +4,6 @@ import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import DefaultElement from '../elements/DefaultElement';
 import CodeBlock from '../elements/CodeBlock';
 import Leaf from '../elements/Leaf';
-import { getLocalDocument, setLocalDocument } from '../services/local-storage';
 import { toggleBlockType, toggleFormat } from '../services/toggles';
 import FormatBar from '../components/FormatBar';
 import { SocketContext } from '../socket/SocketProvider';
@@ -47,7 +46,7 @@ const TextEditor = () => {
 	const socket = useContext(SocketContext);
 
 	const editor = useMemo(() => withReact(createEditor()), []);
-	const [value, setValue] = useState<Descendant[]>(getLocalDocument() || [
+	const [value, setValue] = useState<Descendant[]>([
 		{
 			type: 'paragraph',
 			children: [{ text: 'A line of text in a paragraph' }]
@@ -106,18 +105,18 @@ const TextEditor = () => {
 
 	const handleDocumentChange = (documentValue : Descendant[]) => {
 		setValue(documentValue);
-		setLocalDocument(documentValue);
 	};
 
 	const handleOutgoingChange = (documentValue : Descendant[]) => {
 		handleDocumentChange(documentValue);
-		socket.emit('outgoing change', documentValue);
+		socket.emit('client change', documentValue);
 	};
 
 	useEffect(() => {
-		socket.on('incoming change', handleDocumentChange);
+		socket.on('doc status', handleDocumentChange);
+		socket.on('socket change', handleDocumentChange);
 		return () => {
-			socket.off('incoming change', handleDocumentChange);
+			socket.off('socket change', handleDocumentChange);
 		}
 	}, [socket]);
 
