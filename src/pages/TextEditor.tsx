@@ -1,6 +1,7 @@
-import React, { useMemo, useState, useCallback, useContext, useEffect } from 'react'
-import { createEditor, BaseEditor, Descendant } from 'slate'
-import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
+import React, { useMemo, useState, useCallback, useContext, useEffect } from 'react';
+import './EditorWrapper.css';
+import { createEditor, BaseEditor, Descendant } from 'slate';
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import DefaultElement from '../elements/DefaultElement';
 import CodeBlock from '../elements/CodeBlock';
 import Leaf from '../elements/Leaf';
@@ -128,12 +129,14 @@ const TextEditor = () => {
 				handleOutgoingChange(newValue);
 			}}
 		>
-			<FormatBar editor={editor} />
-			<Editable
-				renderElement={renderElement}
-				renderLeaf={renderLeaf}
-				onKeyDown={e => handleKeyDown(e, editor)}
-			/>
+			<div className="editor">
+				<FormatBar editor={editor} />
+				<Editable
+					renderElement={renderElement}
+					renderLeaf={renderLeaf}
+					onKeyDown={e => handleKeyDown(e, editor)}
+				/>
+			</div>
 		</Slate>
 	);
 };

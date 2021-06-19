@@ -1,0 +1,21 @@
+.editorWrapper {
+	background-color: hotpink;
+	display: grid;
+	grid-template-columns: 15% 70% 15%;
+}
+
+.leftSidebar {
+	background-color: indigo;
+	grid-column: 1;
+}
+
+.editor {
+	background-color: lightblue;
+	grid-column: 2;
+}
+
+.rightSidebar {
+	background-color: lawngreen;
+	grid-column: 3;
+}
+

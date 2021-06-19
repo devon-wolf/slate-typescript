@@ -1,4 +1,4 @@
-import TextEditor from './pages/TextEditor';
+import EditorWrapper from './pages/EditorWrapper';
 import './App.css';
 import { SocketContext, socket } from './socket/SocketProvider';
 
@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <SocketContext.Provider value={socket}>
-        <TextEditor />
+        <EditorWrapper />
       </SocketContext.Provider>
     </div>
   );
