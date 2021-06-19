@@ -1,12 +1,11 @@
-import React, { useMemo, useState, useCallback, useContext, useEffect } from 'react';
+import React, { useState, useCallback, useContext, useEffect } from 'react';
 import './EditorWrapper.css';
-import { createEditor, BaseEditor, Descendant } from 'slate';
-import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
+import { Descendant } from 'slate';
+import { Slate, Editable, ReactEditor } from 'slate-react';
 import DefaultElement from '../elements/DefaultElement';
 import CodeBlock from '../elements/CodeBlock';
 import Leaf from '../elements/Leaf';
 import { toggleBlockType, toggleFormat } from '../services/toggles';
-import FormatBar from '../components/FormatBar';
 import { SocketContext } from '../socket/SocketProvider';
 import { CustomEditor } from './EditorWrapper';
 

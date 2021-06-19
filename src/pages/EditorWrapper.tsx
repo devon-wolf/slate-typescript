@@ -3,13 +3,10 @@ import './EditorWrapper.css';
 import TextEditor from './TextEditor';
 import FormatBar from '../components/FormatBar';
 
-import { createEditor, BaseEditor, Descendant } from 'slate';
-import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
-import DefaultElement from '../elements/DefaultElement';
-import CodeBlock from '../elements/CodeBlock';
-import Leaf from '../elements/Leaf';
-import { toggleBlockType, toggleFormat } from '../services/toggles';
+import { createEditor, BaseEditor } from 'slate';
+import { withReact, ReactEditor } from 'slate-react';
 
+// custom types required for slate to work
 export type CustomEditor = BaseEditor & ReactEditor;
 
 export type CustomText = {
@@ -39,6 +36,9 @@ declare module 'slate' {
 	}
 };
 
+////////////////////////////////
+
+// container for editor and sidebars
 const EditorWrapper = () => {
 	const editor = useMemo(() => withReact(createEditor()), []);
 	return (

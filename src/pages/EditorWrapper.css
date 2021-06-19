@@ -1,5 +1,4 @@
 .editorWrapper {
-	background-color: hotpink;
 	display: grid;
 	grid-template-columns: 15% 70% 15%;
 	height: 100%;
@@ -7,23 +6,20 @@
 }
 
 .leftSidebar, .rightSidebar {
-	padding: 1rem;
 	color: white;
+	background-color: dimgray;
 }
 
 .leftSidebar {
-	background-color: indigo;
 	grid-column: 1;
 }
 
 .editor {
-	background-color: lightblue;
 	grid-column: 2;
 	padding: 5% 10%;
 }
 
 .rightSidebar {
-	background-color: navy;
 	grid-column: 3;
 }
 

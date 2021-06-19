@@ -1,5 +1,6 @@
 import { toggleBlockType, toggleFormat } from '../services/toggles';
 import { FormatBarProps, FormatString, TypeString } from '../types';
+import './FormatBar.css';
 
 
 const FormatBar = ({ editor } : FormatBarProps) => {
@@ -40,7 +41,7 @@ const FormatBar = ({ editor } : FormatBarProps) => {
 					<i title="strikethrough" className="fas fa-strikethrough"></i>
 				</button>
 			</span>
-			|
+			<hr />
 			<span className="blockTypeButtons">
 				<button
 					aria-label="toggle code block"
