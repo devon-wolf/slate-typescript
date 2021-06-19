@@ -32,7 +32,7 @@ type CodeElement = {
 
 type CustomElement = ParagraphElement | CodeElement;
 declare module 'slate' {
-		interface CustomTypes {
+	interface CustomTypes {
 		Editor : CustomEditor,
 		Element : CustomElement,
 		Text : CustomText
@@ -46,7 +46,12 @@ const TextEditor = () => {
 	const socket = useContext(SocketContext);
 
 	const editor = useMemo(() => withReact(createEditor()), []);
-	const [value, setValue] = useState<Descendant[]>([]);
+	const [value, setValue] = useState<Descendant[]>([
+		{
+			type: 'paragraph',
+			children: [{ text: 'A line of text in a paragraph' }]
+		}
+	]);
 
 	const renderElement = useCallback(props => {
 		switch (props.element.type) {
