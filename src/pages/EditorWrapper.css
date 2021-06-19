@@ -2,6 +2,13 @@
 	background-color: hotpink;
 	display: grid;
 	grid-template-columns: 15% 70% 15%;
+	height: 100%;
+	width: 100%;
+}
+
+.leftSidebar, .rightSidebar {
+	padding: 1rem;
+	color: white;
 }
 
 .leftSidebar {
@@ -12,10 +19,11 @@
 .editor {
 	background-color: lightblue;
 	grid-column: 2;
+	padding: 0 10%;
 }
 
 .rightSidebar {
-	background-color: lawngreen;
+	background-color: navy;
 	grid-column: 3;
 }
 
