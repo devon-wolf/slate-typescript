@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import { SocketContext, socket } from './socket/SocketProvider';
-import Document from './pages/DocumentPage';
+import DocumentPage from './pages/DocumentPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import ListPage from './pages/ListPage';
@@ -38,7 +38,7 @@ function App() {
             exact
             render={() =>
               <SocketContext.Provider value={socket}>
-                <Document />
+                <DocumentPage />
               </SocketContext.Provider>
             }
           />

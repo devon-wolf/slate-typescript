@@ -39,7 +39,7 @@ declare module 'slate' {
 ////////////////////////////////
 
 // container for editor and sidebars
-const Document = () => {
+const DocumentPage = () => {
 	const editor = useMemo(() => withReact(createEditor()), []);
 	const socket = useContext(SocketContext);
 
@@ -78,4 +78,4 @@ const Document = () => {
 	)
 }
 
-export default Document;
+export default DocumentPage;
