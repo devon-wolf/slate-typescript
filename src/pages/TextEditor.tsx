@@ -68,9 +68,9 @@ const TextEditor = ({ editor } : EditorProps) => {
 		}
 	};
 
-	const handleDocumentChange = (documentValue : Descendant[]) => {
+	const handleDocumentChange = useCallback((documentValue : Descendant[]) => {
 		setValue(documentValue);
-	};
+	}, [setValue]);
 
 	const handleOutgoingChange = (documentValue : Descendant[]) => {
 		handleDocumentChange(documentValue);
@@ -83,7 +83,7 @@ const TextEditor = ({ editor } : EditorProps) => {
 		return () => {
 			socket.off('socket change', handleDocumentChange);
 		}
-	}, [socket]);
+	}, [handleDocumentChange, socket]);
 
 	return (
 		<Slate

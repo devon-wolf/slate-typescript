@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useContext } from 'react';
+import { SocketContext } from '../socket/SocketProvider';
 import './EditorWrapper.css';
 import TextEditor from './TextEditor';
 import FormatBar from '../components/FormatBar';
-
 import { createEditor, BaseEditor } from 'slate';
 import { withReact, ReactEditor } from 'slate-react';
 
@@ -41,6 +41,8 @@ declare module 'slate' {
 // container for editor and sidebars
 const EditorWrapper = () => {
 	const editor = useMemo(() => withReact(createEditor()), []);
+	const socket = useContext(SocketContext);
+
 	return (
 		<div className="editorWrapper">
 
@@ -51,7 +53,9 @@ const EditorWrapper = () => {
 			<TextEditor editor={editor}/>
 
 			<aside className="rightSidebar">
-				<button>Save document</button>
+				<button
+					onClick={() => socket.emit('new doc', 'fake title')}
+				>Save document</button>
 			</aside>
 
 		</div>
