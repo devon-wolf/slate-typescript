@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import './EditorWrapper.css';
 import { Descendant } from 'slate';
 import { Slate, Editable, ReactEditor } from 'slate-react';
@@ -8,6 +8,7 @@ import Leaf from '../elements/Leaf';
 import { toggleBlockType, toggleFormat } from '../services/toggles';
 import { SocketContext } from '../socket/SocketProvider';
 import { CustomEditor } from './EditorWrapper';
+import useEditor from '../hooks/useEditor';
 
 type EditorProps = {
 	editor : CustomEditor
@@ -15,12 +16,7 @@ type EditorProps = {
 
 const TextEditor = ({ editor } : EditorProps) => {
 	const socket = useContext(SocketContext);
-	const [value, setValue] = useState<Descendant[]>([
-		{
-			type: 'paragraph',
-			children: [{ text: 'A line of text in a paragraph' }]
-		}
-	]);
+	const { value, setValue } = useEditor();
 
 	const renderElement = useCallback(props => {
 		switch (props.element.type) {

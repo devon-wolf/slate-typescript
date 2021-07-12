@@ -50,7 +50,9 @@ const EditorWrapper = () => {
 
 			<TextEditor editor={editor}/>
 
-			<aside className="rightSidebar"></aside>
+			<aside className="rightSidebar">
+				<button>Save document</button>
+			</aside>
 
 		</div>
 	)
