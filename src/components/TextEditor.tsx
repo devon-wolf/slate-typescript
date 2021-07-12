@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect } from 'react';
-import './EditorWrapper.css';
+import '../pages/DocumentPage.css';
 import { Descendant } from 'slate';
 import { Slate, Editable, ReactEditor } from 'slate-react';
 import DefaultElement from '../elements/DefaultElement';
@@ -7,7 +7,7 @@ import CodeBlock from '../elements/CodeBlock';
 import Leaf from '../elements/Leaf';
 import { toggleBlockType, toggleFormat } from '../services/toggles';
 import { SocketContext } from '../socket/SocketProvider';
-import { CustomEditor } from './EditorWrapper';
+import { CustomEditor } from '../pages/DocumentPage';
 import useEditor from '../hooks/useEditor';
 
 type EditorProps = {

@@ -5,10 +5,10 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import { SocketContext, socket } from './socket/SocketProvider';
-import EditorWrapper from './pages/EditorWrapper';
+import Document from './pages/DocumentPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import DocumentList from './pages/DocumentList';
+import ListPage from './pages/ListPage';
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
           <Route
             path="/documents"
             exact
-            render={() => <DocumentList />}
+            render={() => <ListPage />}
           />
 
           <Route
@@ -38,7 +38,7 @@ function App() {
             exact
             render={() =>
               <SocketContext.Provider value={socket}>
-                <EditorWrapper />
+                <Document />
               </SocketContext.Provider>
             }
           />

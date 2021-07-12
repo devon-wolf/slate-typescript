@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DocumentList = () => {
+const ListPage = () => {
 	return (
 		<main>
 			Document list
@@ -8,4 +8,4 @@ const DocumentList = () => {
 	);
 };
 
-export default DocumentList;
+export default ListPage;
