@@ -53,9 +53,25 @@ const EditorWrapper = () => {
 			<TextEditor editor={editor}/>
 
 			<aside className="rightSidebar">
+				
+				{/* should create a new document in the db with the current document contents and update the URL params with the new ID */}
 				<button
-					onClick={() => socket.emit('new doc', 'fake title')}
-				>Save document</button>
+					onClick={() => socket.emit('new doc', 'fake title')}>
+					Save as new document
+				</button>
+
+				{/* should update the current document, using the ID from the URL params */}
+				<button
+					onClick={() => socket.emit('update doc', 'fake id')}>
+					Save document changes
+				</button>
+
+				{/* should delete the current document, using the ID from the URL params, then redirect all viewers to homepage */}
+				<button
+					onClick={() => socket.emit('delete doc', 'fake id')}>
+					Delete document
+				</button>
+
 			</aside>
 
 		</div>
