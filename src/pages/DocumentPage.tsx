@@ -52,7 +52,7 @@ const DocumentPage = () => {
 				<FormatBar editor={editor}/>
 			</aside>
 
-			<TextEditor editor={editor} id={id} />
+			<TextEditor editor={editor} paramId={id} />
 
 			<aside className="rightSidebar">
 				

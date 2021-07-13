@@ -12,10 +12,10 @@ import useEditor from '../hooks/useEditor';
 
 type EditorProps = {
 	editor: CustomEditor
-	id: string
+	paramId: string
 };
 
-const TextEditor = ({ editor, id }: EditorProps) => {
+const TextEditor = ({ editor, paramId }: EditorProps) => {
 	const socket = useContext(SocketContext);
 	const { value, setValue } = useEditor();
 
@@ -69,18 +69,20 @@ const TextEditor = ({ editor, id }: EditorProps) => {
 		}
 	};
 
-	const handleDocumentChange = useCallback((documentValue: Descendant[]) => {
-		setValue(documentValue);
-	}, [setValue]);
+	const handleDocumentChange = useCallback((update: { id: string, newValue: Descendant[] }) => {
+		const { id, newValue } = update;
+		if(id !== paramId) return;
+		setValue(newValue);
+	}, [setValue, paramId]);
 
-	const handleOutgoingChange = (documentValue: Descendant[]) => {
-		handleDocumentChange(documentValue);
-		socket.emit('client change', documentValue);
+	const handleOutgoingChange = (newValue: Descendant[]) => {
+		handleDocumentChange({ id: paramId, newValue });
+		socket.emit('client change', { id: paramId, newValue });
 	};
 
 	const handleDocumentFetch = useCallback(() => {
-		socket.emit('fetch request', id);
-	}, [socket, id]);
+		socket.emit('fetch request', paramId);
+	}, [socket, paramId]);
 
 	useEffect(() => {
 		socket.on('connection', handleDocumentFetch);
