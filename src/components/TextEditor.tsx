@@ -11,10 +11,11 @@ import { CustomEditor } from '../pages/DocumentPage';
 import useEditor from '../hooks/useEditor';
 
 type EditorProps = {
-	editor : CustomEditor
+	editor: CustomEditor
+	id: string
 };
 
-const TextEditor = ({ editor } : EditorProps) => {
+const TextEditor = ({ editor, id }: EditorProps) => {
 	const socket = useContext(SocketContext);
 	const { value, setValue } = useEditor();
 
@@ -32,7 +33,7 @@ const TextEditor = ({ editor } : EditorProps) => {
 	}, []);
 
 	// a better way to refactor this will be to make an object with each hotkey and the relevant callback/args
-	const handleKeyDown = (e : React.KeyboardEvent, editor : ReactEditor) => {
+	const handleKeyDown = (e: React.KeyboardEvent, editor: ReactEditor) => {
 		if(!e.ctrlKey) return;
 		
 		const hotKeys = ['`', 'b', 'i', 'u', '-'];
@@ -68,22 +69,29 @@ const TextEditor = ({ editor } : EditorProps) => {
 		}
 	};
 
-	const handleDocumentChange = useCallback((documentValue : Descendant[]) => {
+	const handleDocumentChange = useCallback((documentValue: Descendant[]) => {
 		setValue(documentValue);
 	}, [setValue]);
 
-	const handleOutgoingChange = (documentValue : Descendant[]) => {
+	const handleOutgoingChange = (documentValue: Descendant[]) => {
 		handleDocumentChange(documentValue);
 		socket.emit('client change', documentValue);
 	};
 
+	const handleDocumentFetch = useCallback(() => {
+		socket.emit('fetch request', id);
+	}, [socket, id]);
+
 	useEffect(() => {
-		socket.on('doc status', handleDocumentChange);
+		socket.on('connection', handleDocumentFetch);
+		socket.on('socket response', handleDocumentChange);
 		socket.on('socket change', handleDocumentChange);
 		return () => {
+			socket.off('connection', handleDocumentFetch);
+			socket.off('socket response', handleDocumentChange);
 			socket.off('socket change', handleDocumentChange);
 		}
-	}, [handleDocumentChange, socket]);
+	}, [handleDocumentChange, handleDocumentFetch, socket]);
 
 	return (
 		<Slate
@@ -93,14 +101,12 @@ const TextEditor = ({ editor } : EditorProps) => {
 				handleOutgoingChange(newValue);
 			}}
 		>
-		
 				<Editable
 					renderElement={renderElement}
 					renderLeaf={renderLeaf}
 					onKeyDown={e => handleKeyDown(e, editor)}
 					className="editor"
 				/>
-	
 		</Slate>
 	);
 };

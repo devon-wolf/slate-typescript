@@ -5,6 +5,7 @@ import TextEditor from '../components/TextEditor';
 import FormatBar from '../components/FormatBar';
 import { createEditor, BaseEditor } from 'slate';
 import { withReact, ReactEditor } from 'slate-react';
+import { useParams } from 'react-router-dom';
 
 // custom types required for slate to work
 export type CustomEditor = BaseEditor & ReactEditor;
@@ -42,6 +43,7 @@ declare module 'slate' {
 const DocumentPage = () => {
 	const editor = useMemo(() => withReact(createEditor()), []);
 	const socket = useContext(SocketContext);
+	const { id } = useParams<{ id: string}>();
 
 	return (
 		<div className="editorWrapper">
@@ -50,7 +52,7 @@ const DocumentPage = () => {
 				<FormatBar editor={editor}/>
 			</aside>
 
-			<TextEditor editor={editor}/>
+			<TextEditor editor={editor} id={id} />
 
 			<aside className="rightSidebar">
 				
