@@ -1,25 +1,25 @@
 .editorWrapper {
-	display: grid;
-	grid-template-columns: 15% 70% 15%;
-	height: 100%;
-	width: 100%;
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  height: 100%;
+  width: 100%;
 }
 
-.leftSidebar, .rightSidebar {
-	color: white;
-	background-color: dimgray;
+.leftSidebar,
+.rightSidebar {
+  color: white;
+  background-color: dimgray;
 }
 
 .leftSidebar {
-	grid-column: 1;
+  grid-column: 1;
 }
 
 .editor {
-	grid-column: 2;
-	padding: 5% 10%;
+  grid-column: 2;
+  padding: 5% 10%;
 }
 
 .rightSidebar {
-	grid-column: 3;
+  grid-column: 3;
 }
-

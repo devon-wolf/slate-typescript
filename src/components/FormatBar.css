@@ -1,30 +1,33 @@
 .formatBar {
-	position: fixed;
-	z-index: 1;
-	width: 15%;
-	margin-top: 1rem;
+  position: fixed;
+  z-index: 1;
+  width: 15%;
+  margin-top: 1rem;
 }
 
 .formatBar hr {
-	width: 20%;
+  width: 20%;
 }
 
 .formatBar button {
-	width: 40%;
-	cursor: pointer;
-	background-color: ivory;
-	border: none;
-	margin: .25rem;
-	padding: .25rem;
+  width: 40%;
+  cursor: pointer;
+  background-color: ivory;
+  border: none;
+  margin: 0.25rem;
+  padding: 0.25rem;
 }
 
-.formatBar, .formatButtons, .blockTypeButtons {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+.formatBar,
+.formatButtons,
+.blockTypeButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.formatButtons, .blockTypeButtons {
-	width: 100%;
+.formatButtons,
+.blockTypeButtons {
+  width: 100%;
 }

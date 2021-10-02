@@ -11,98 +11,100 @@ import { CustomEditor } from './EditorWrapper';
 import useEditor from '../hooks/useEditor';
 
 type EditorProps = {
-	editor : CustomEditor
+  editor: CustomEditor;
 };
 
-const TextEditor = ({ editor } : EditorProps) => {
-	const socket = useContext(SocketContext);
-	const { value, setValue } = useEditor();
+const TextEditor = ({ editor }: EditorProps): JSX.Element => {
+  const socket = useContext(SocketContext);
+  const { value, setValue } = useEditor();
 
-	const renderElement = useCallback(props => {
-		switch (props.element.type) {
-			case 'code':
-				return <CodeBlock {...props} />
-			default:
-				return <DefaultElement {...props} />
-		};
-	}, []);
-	
-	const renderLeaf = useCallback(props => {
-		return <Leaf {...props} />
-	}, []);
+  const renderElement = useCallback((props) => {
+    // eslint-disable-next-line react/prop-types
+    switch (props.element.type) {
+      case 'code':
+        return <CodeBlock {...props} />;
+      default:
+        return <DefaultElement {...props} />;
+    }
+  }, []);
 
-	// a better way to refactor this will be to make an object with each hotkey and the relevant callback/args
-	const handleKeyDown = (e : React.KeyboardEvent, editor : ReactEditor) => {
-		if(!e.ctrlKey) return;
-		
-		const hotKeys = ['`', 'b', 'i', 'u', '-'];
-		if (!hotKeys.some(key => key === e.key)) return;
-		
-		e.preventDefault();
+  const renderLeaf = useCallback((props) => {
+    return <Leaf {...props} />;
+  }, []);
 
-		switch (e.key) {
-			case '`': {
-				toggleBlockType(editor, 'code');
-				break;
-			}
+  // a better way to refactor this will be to make an object with each hotkey and the relevant callback/args
+  const handleKeyDown = (e: React.KeyboardEvent, editor: ReactEditor) => {
+    if (!e.ctrlKey) return;
 
-			case 'b': {
-				toggleFormat(editor, 'bold');
-				break;
-			}
+    const hotKeys = ['`', 'b', 'i', 'u', '-'];
+    if (!hotKeys.some((key) => key === e.key)) return;
 
-			case 'i': {
-				toggleFormat(editor, 'italic');
-				break;
-			}
+    e.preventDefault();
 
-			case 'u': {
-				toggleFormat(editor, 'underline');
-				break;
-			}
+    switch (e.key) {
+      case '`': {
+        toggleBlockType(editor, 'code');
+        break;
+      }
 
-			case '-': {
-				toggleFormat(editor, 'strikethrough');
-				break;
-			}
-		}
-	};
+      case 'b': {
+        toggleFormat(editor, 'bold');
+        break;
+      }
 
-	const handleDocumentChange = useCallback((documentValue : Descendant[]) => {
-		setValue(documentValue);
-	}, [setValue]);
+      case 'i': {
+        toggleFormat(editor, 'italic');
+        break;
+      }
 
-	const handleOutgoingChange = (documentValue : Descendant[]) => {
-		handleDocumentChange(documentValue);
-		socket.emit('client change', documentValue);
-	};
+      case 'u': {
+        toggleFormat(editor, 'underline');
+        break;
+      }
 
-	useEffect(() => {
-		socket.on('doc status', handleDocumentChange);
-		socket.on('socket change', handleDocumentChange);
-		return () => {
-			socket.off('socket change', handleDocumentChange);
-		}
-	}, [handleDocumentChange, socket]);
+      case '-': {
+        toggleFormat(editor, 'strikethrough');
+        break;
+      }
+    }
+  };
 
-	return (
-		<Slate
-			editor={editor}
-			value={value}
-			onChange={newValue => {
-				handleOutgoingChange(newValue);
-			}}
-		>
-		
-				<Editable
-					renderElement={renderElement}
-					renderLeaf={renderLeaf}
-					onKeyDown={e => handleKeyDown(e, editor)}
-					className="editor"
-				/>
-	
-		</Slate>
-	);
+  const handleDocumentChange = useCallback(
+    (documentValue: Descendant[]) => {
+      setValue(documentValue);
+    },
+    [setValue]
+  );
+
+  const handleOutgoingChange = (documentValue: Descendant[]) => {
+    handleDocumentChange(documentValue);
+    socket.emit('client change', documentValue);
+  };
+
+  useEffect(() => {
+    socket.on('doc status', handleDocumentChange);
+    socket.on('socket change', handleDocumentChange);
+    return () => {
+      socket.off('socket change', handleDocumentChange);
+    };
+  }, [handleDocumentChange, socket]);
+
+  return (
+    <Slate
+      editor={editor}
+      value={value}
+      onChange={(newValue) => {
+        handleOutgoingChange(newValue);
+      }}
+    >
+      <Editable
+        renderElement={renderElement}
+        renderLeaf={renderLeaf}
+        onKeyDown={(e) => handleKeyDown(e, editor)}
+        className="editor"
+      />
+    </Slate>
+  );
 };
 
 export default TextEditor;
